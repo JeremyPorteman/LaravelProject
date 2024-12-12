@@ -1,0 +1,17 @@
+$tools = [
+	(object) [
+		"name" => "Marteau",
+		"description" => "pour frapper et enfoncer des clous dans du bois ou d'autres matériaux.",
+		"price" => "23.99",
+	],
+	(object) [
+		"name" => "Tournevis",
+		"description" => "pour serrer ou desserrer les vis.",
+		"price" => "15.99",
+	],
+	(object) [
+		"name" => "Scie",
+		"description" => "pour couper le bois, le métal ou d'autres matériaux.",
+		"price" => "56.33",
+	],
+];

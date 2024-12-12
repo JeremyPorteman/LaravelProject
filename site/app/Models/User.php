@@ -6,6 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Services\AuthenticationService;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -19,7 +22,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'authentication_token',
+        'authentication_token_generated_at'
     ];
 
     /**
@@ -28,8 +32,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
+        'authentication_token',
+        'authentication_token_generated_at'
     ];
 
     /**
@@ -41,7 +46,24 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'authentication_token_generated_at' => 'datetime'
         ];
+    }
+
+    public function sendAuthenticationMail(?string $redirect_to = null): void
+    {
+        $authenticationSerive = new AuthenticationService($this);
+
+        $url = route('authentication.callback', [
+        'token' => $authenticationSerive->createToken(),
+        'email' => $this->email,
+        'redirect_to' => $redirect_to ?? url("/home"),
+        ]);
+
+        Mail::raw("Pour vous identifier au site, veuillez cliquer <a href='$url'>ici</a>", function (Message $mail) {
+        $mail->to($this->email)
+        ->from('no-reply@u-picardie.fr')
+        ->subject('Connectez-vous à votre site préféré');
+        });
     }
 }

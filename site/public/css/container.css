@@ -1,0 +1,22 @@
+div.main-container {
+    /*box-shadow: rgb(226, 226, 226) 0 10px 15px;
+    border-radius: 1rem;*/
+    border: solid black 3px;
+    box-shadow: #f880e8 5px 5px 0 0;
+    padding: 1rem;
+}
+
+thead {
+    font-weight: 900;
+    border-bottom: solid black 1px;
+}
+
+td {
+    padding: 0.5rem;
+}
+
+div.pagination {
+    svg {
+        width: 1rem;
+    }
+}
